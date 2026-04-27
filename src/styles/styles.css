@@ -4,23 +4,31 @@
 ========================= */
 
 :root {
-  --bg: #f6f1e7;          /* beige background */
+  --bg: #f6f1e7;
   --card: #ffffff;
-  --primary: #556b2f;     /* olive green */
+  --primary: #556b2f;
   --primary-dark: #3f4f22;
   --text: #1f2937;
   --muted: #6b7280;
   --border: #e5e7eb;
 }
 
-/* ================= LAYOUT FIX (IMPORTANT) ================= */
+/* ================= BASE ================= */
+
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
 
-/* SIDEBAR FIXED */
+/* ================= SIDEBAR ================= */
+
 .sidebar {
   width: 220px;
   min-height: 100vh;
@@ -31,9 +39,35 @@ body {
   left: 0;
   top: 0;
   bottom: 0;
+  transition: all 0.3s ease;
 }
 
-/* MAIN AREA */
+.sidebar h2,
+.sidebar h3,
+.sidebar h4 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebar button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sidebar button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateX(3px);
+}
+
+/* ================= MAIN CONTENT ================= */
+
 .main-content {
   margin-left: 220px;
   padding: 25px;
@@ -41,51 +75,13 @@ body {
   min-height: 100vh;
 }
 
-/* RESPONSIVE FIX */
-@media (max-width: 768px) {
-  .sidebar {
-    position: relative;
-    width: 100%;
-    height: auto;
-  }
-
-  .main-content {
-    margin-left: 0;
-    width: 100%;
-  }
-}
-
-.sidebar h2, .sidebar h3 {
-  text-align: center;
-  margin-bottom: 20px;
-  letter-spacing: 1px;
-}
-
-.sidebar button {
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  background: rgba(255,255,255,0.1);
-  color: white;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.sidebar button:hover {
-  background: rgba(255,255,255,0.25);
-  transform: translateX(3px);
-}
-
-
 /* ================= CARDS ================= */
 
 .card {
   background: var(--card);
   padding: 18px;
   border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
   border: 1px solid var(--border);
   transition: 0.3s;
 }
@@ -107,7 +103,7 @@ input {
 
 input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(85,107,47,0.2);
+  box-shadow: 0 0 0 2px rgba(85, 107, 47, 0.2);
 }
 
 /* ================= BUTTONS ================= */
@@ -129,13 +125,19 @@ button:hover {
 
 /* ================= TABLE ================= */
 
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
 table {
   width: 100%;
+  min-width: 600px;
   background: white;
   border-collapse: collapse;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
 }
 
 th {
@@ -162,7 +164,11 @@ tr:hover {
   padding: 10px;
   margin-bottom: 12px;
   border-radius: 10px;
+  border: 1px solid var(--border);
 }
+
+/* ================= STATUS BOX ================= */
+
 .status-box {
   padding: 10px;
   border-radius: 8px;
@@ -201,47 +207,33 @@ tr:hover {
 .status-badge.status-urgent { background: #b02a37; }
 .status-badge.status-ok { background: #198754; }
 
-.table-wrapper {
-  overflow-x: auto;
-  width: 100%;
+/* ================= HEADINGS ================= */
+
+h1, h2, h3, h5 {
+  color: var(--primary-dark);
 }
 
-table {
-  min-width: 600px;
-}
+/* ================= RESPONSIVE ================= */
 
-/* SIDEBAR RESPONSIVE */
-.sidebar {
-  width: 220px;
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  background: #fff;
-  padding: 20px;
-  transition: all 0.3s ease;
-}
-
-/* MAIN CONTENT SHIFT */
-.main-content {
-  margin-left: 220px;
-}
-
-/* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
 
   .sidebar {
     width: 100%;
-    height: auto;
+    min-height: auto;
     position: relative;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    flex-direction: column;
     align-items: center;
   }
 
   .main-content {
     margin-left: 0;
+    width: 100%;
+    padding: 15px;
+  }
+
+  .search {
+    width: 100%;
   }
 
   button {
@@ -256,10 +248,4 @@ table {
   table {
     min-width: 500px;
   }
-}
-
-/* ================= UTIL ================= */
-
-h1, h2, h3, h5 {
-  color: var(--primary-dark);
 }

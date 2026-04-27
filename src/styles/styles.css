@@ -210,20 +210,51 @@ table {
   min-width: 600px;
 }
 
+/* SIDEBAR RESPONSIVE */
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: #fff;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+/* MAIN CONTENT SHIFT */
+.main-content {
+  margin-left: 220px;
+}
+
+/* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
+
   .sidebar {
-    position: relative;
     width: 100%;
     height: auto;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
   }
 
   .main-content {
     margin-left: 0;
   }
 
-  button, input {
+  button {
     width: 100%;
     margin-bottom: 10px;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  table {
+    min-width: 500px;
   }
 }
 

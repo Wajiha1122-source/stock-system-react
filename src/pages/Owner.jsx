@@ -131,7 +131,7 @@ export default function Owner() {
         </div>
 
         {/* TABLE */}
-        <div className="card">
+        <div className="table-wrapper">
           <table>
             <thead>
               <tr>

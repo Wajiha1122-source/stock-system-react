@@ -1,7 +1,8 @@
+import API from "../services/api";
 import { useEffect, useState, useRef } from "react";
 import Chart from "chart.js/auto";
 
-const API = "http://localhost:5000";
+
 
 export default function Manager() {
   const [products, setProducts] = useState([]);

@@ -171,144 +171,175 @@ function getStatusClass(qty) {
   }, 0);
 
   return (
-    <div>
+  <div>
 
-      {/* SIDEBAR */}
-      <div className="sidebar">
-        <h4 className="text-center mb-4">Manager</h4>
+    {/* SIDEBAR */}
+    <div className="sidebar">
+      <h4 className="text-center mb-4">Manager</h4>
 
       <button
-  onClick={() => {
-    setEditId(null);
-    setProducts(allProducts);
-    loadProducts();
-    clearForm();
-  }}
->
-  🔄 Refresh
-</button>
-        <button onClick={() => window.open(API + "/report")}>📄 Download PDF</button>
-        <button onClick={() => (window.location.href = "/")}>🚪 Logout</button>
-      </div>
+        onClick={() => {
+          setEditId(null);
+          setProducts(allProducts);
+          loadProducts();
+          clearForm();
+        }}
+      >
+        🔄 Refresh
+      </button>
 
-      {/* MAIN */}
-      <div className="main-content">
+      <button onClick={() => window.open(API + "/report")}>
+        📄 Download PDF
+      </button>
 
-        <h2>Product Management</h2>
+      <button onClick={() => (window.location.href = "/")}>
+        🚪 Logout
+      </button>
+    </div>
 
-        {/* SEARCH */}
-        <input
-          className="form-control mb-3"
-          placeholder="Search products..."
-          onChange={(e) => handleSearch(e.target.value)}
-        />
+    {/* MAIN */}
+    <div className="main-content">
 
-        {/* STATS */}
-        <div style={{
+      <h2>Product Management</h2>
+
+      {/* SEARCH */}
+      <input
+        className="form-control mb-3"
+        placeholder="Search products..."
+        onChange={(e) => handleSearch(e.target.value)}
+      />
+
+      {/* STATS */}
+      <div
+        style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
           gap: "15px",
           marginBottom: "20px"
-        }}>
-          <div className="card p-3 text-center">
-            <h6>Total Products</h6>
-            <h4>{products.length}</h4>
-          </div>
-
-          <div className="card p-3 text-center">
-            <h6>Total Quantity</h6>
-            <h4>{totalQty}</h4>
-          </div>
-
-          <div className="card p-3 text-center">
-            <h6>Total Value</h6>
-            <h4>{totalValue}</h4>
-          </div>
-
-          <div className="card p-3 text-center">
-            <h6>Categories</h6>
-            <h4>{[...new Set(products.map(p => p.category))].length}</h4>
-          </div>
+        }}
+      >
+        <div className="card p-3 text-center">
+          <h6>Total Products</h6>
+          <h4>{products.length}</h4>
         </div>
 
-        {/* CHART */}
-        <div className="card p-3 mb-4">
-          <h5>Stock Analytics</h5>
-          <canvas ref={chartRef} height="100"></canvas>
+        <div className="card p-3 text-center">
+          <h6>Total Quantity</h6>
+          <h4>{totalQty}</h4>
         </div>
 
-        {/* ADD PRODUCT */}
-        <div className="card p-3 mb-3">
+        <div className="card p-3 text-center">
+          <h6>Total Value</h6>
+          <h4>{totalValue}</h4>
+        </div>
 
-          <h5 className="mb-3">Add Product</h5>
+        <div className="card p-3 text-center">
+          <h6>Categories</h6>
+          <h4>{[...new Set(products.map(p => p.category))].length}</h4>
+        </div>
+      </div>
 
-          <div style={{
+      {/* CHART */}
+      <div className="card p-3 mb-4">
+        <h5>Stock Analytics</h5>
+        <canvas ref={chartRef} height="100"></canvas>
+      </div>
+
+      {/* ADD PRODUCT */}
+      <div className="card p-3 mb-3">
+
+        <h5 className="mb-3">Add Product</h5>
+
+        <div
+          style={{
             display: "grid",
-           gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
             gap: "10px"
-          }}>
+          }}
+        >
+          <input id="code" placeholder="Code" />
+          <input id="name" placeholder="Name" />
+          <input id="category" placeholder="Category" />
+          <input id="details" placeholder="Details" />
+          <input id="unit" placeholder="Unit" />
+          <input id="quantity" placeholder="Qty" />
+          <input id="price" placeholder="Price" />
 
-            <input id="code" placeholder="Code" />
-            <input id="name" placeholder="Name" />
-            <input id="category" placeholder="Category" />
-            <input id="details" placeholder="Details" />
-            <input id="unit" placeholder="Unit" />
-            <input id="quantity" placeholder="Qty" />
-            <input id="price" placeholder="Price" />
-
-            <button onClick={addProduct} style={{ gridColumn: "span 4" }}>
+          {/* FIXED BUTTON */}
+          <div style={{ gridColumn: "1 / -1" }}>
+            <button onClick={addProduct} style={{ width: "100%" }}>
               {editId ? "Update Product" : "Save Product"}
             </button>
-
           </div>
+
         </div>
+      </div>
 
-        {/* TABLE */}
-        <div className="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Qty</th>
-                <th>Price</th>
-                 <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+      {/* TABLE */}
+      <div className="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
 
-            <tbody>
-              {products.map(p => (
-                <tr key={p.id}>
-                  <td>{p.code}</td>
-                  <td>{p.name}</td>
-                  <td>{p.category}</td>
-                  <td>{p.quantity}</td>
-                  <td>{p.price}</td>
-                  
-<td>
-  <span className={`status-badge ${getStatusClass(p.quantity)}`}>
-    {getStockStatus(p.quantity)}
-  </span>
-</td>
-                  <td>
-                    <button onClick={() => editProduct(p)}>Edit</button>
+          <tbody>
+            {products.map(p => (
+              <tr key={p.id}>
+                <td>{p.code}</td>
+                <td>{p.name}</td>
+                <td>{p.category}</td>
+                <td>{p.quantity}</td>
+                <td>{p.price}</td>
+
+                <td>
+                  <span
+                    className={`status-badge ${getStatusClass(p.quantity)}`}
+                    style={{
+                      display: "inline-block",
+                      minWidth: "70px",
+                      textAlign: "center"
+                    }}
+                  >
+                    {getStockStatus(p.quantity)}
+                  </span>
+                </td>
+
+                <td>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "8px",
+                      flexWrap: "wrap"
+                    }}
+                  >
+                    <button onClick={() => editProduct(p)}>
+                      Edit
+                    </button>
 
                     <button
                       onClick={() => deleteProduct(p.id)}
-                      style={{ background: "red", marginLeft: "5px" }}
+                      style={{ background: "red" }}
                     >
                       Delete
                     </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
 
+        </table>
       </div>
+
     </div>
-  );
+  </div>
+);
 }

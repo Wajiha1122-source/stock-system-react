@@ -201,6 +201,32 @@ tr:hover {
 .status-badge.status-urgent { background: #b02a37; }
 .status-badge.status-ok { background: #198754; }
 
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+table {
+  min-width: 600px;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  button, input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
 /* ================= UTIL ================= */
 
 h1, h2, h3, h5 {

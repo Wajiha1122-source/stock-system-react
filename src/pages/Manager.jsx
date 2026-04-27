@@ -206,7 +206,7 @@ function getStatusClass(qty) {
         {/* STATS */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
+          gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
           gap: "15px",
           marginBottom: "20px"
         }}>
@@ -244,7 +244,7 @@ function getStatusClass(qty) {
 
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
+           gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
             gap: "10px"
           }}>
 
@@ -264,7 +264,7 @@ function getStatusClass(qty) {
         </div>
 
         {/* TABLE */}
-        <div className="card p-3">
+        <div className="table-wrapper">
           <table>
             <thead>
               <tr>

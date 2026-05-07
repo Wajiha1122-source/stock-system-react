@@ -208,12 +208,7 @@ export default function Manager() {
 
         <h2>Product Management</h2>
 
-        {/* SEARCH */}
-        <input
-          className="form-control mb-3"
-          placeholder="Search products..."
-          onChange={(e) => handleSearch(e.target.value)}
-        />
+      
 
         {/* STATS */}
         <div
@@ -281,6 +276,13 @@ export default function Manager() {
 
           </div>
         </div>
+
+ {/* SEARCH */}
+        <input
+          className="form-control mb-3"
+          placeholder="Search products..."
+          onChange={(e) => handleSearch(e.target.value)}
+        />
 
         {/* TABLE */}
         <div className="table-wrapper">

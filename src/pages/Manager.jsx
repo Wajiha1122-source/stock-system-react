@@ -7,6 +7,11 @@ export default function Manager() {
   const [allProducts, setAllProducts] = useState([]);
   const [editId, setEditId] = useState(null);
 
+  // ✅ FILTER STATES
+  const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedStatus, setSelectedStatus] = useState("All");
+
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
@@ -111,22 +116,35 @@ export default function Manager() {
     return "status-ok";
   }
 
-  /* ---------------- SEARCH ---------------- */
-  function handleSearch(value) {
-    const v = value.toLowerCase();
+  /* ---------------- FILTERS ---------------- */
+  function handleFilters(searchValue, categoryValue, statusValue) {
 
-    if (!v) {
-      setProducts(allProducts);
-      return;
+    let filtered = [...allProducts];
+
+    // SEARCH
+    if (searchValue) {
+      filtered = filtered.filter(p =>
+        p.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+        p.code.toLowerCase().includes(searchValue.toLowerCase()) ||
+        p.category.toLowerCase().includes(searchValue.toLowerCase())
+      );
     }
 
-    setProducts(
-      allProducts.filter(p =>
-        p.name.toLowerCase().includes(v) ||
-        p.code.toLowerCase().includes(v) ||
-        p.category.toLowerCase().includes(v)
-      )
-    );
+    // CATEGORY FILTER
+    if (categoryValue !== "All") {
+      filtered = filtered.filter(
+        p => p.category === categoryValue
+      );
+    }
+
+    // STATUS FILTER
+    if (statusValue !== "All") {
+      filtered = filtered.filter(
+        p => getStockStatus(p.quantity) === statusValue
+      );
+    }
+
+    setProducts(filtered);
   }
 
   /* ---------------- CHART ---------------- */
@@ -176,6 +194,12 @@ export default function Manager() {
     return sum + (qty > 0 ? qty * price : 0);
   }, 0);
 
+  // ✅ CATEGORY LIST
+  const categories = [
+    "All",
+    ...new Set(allProducts.map(p => p.category))
+  ];
+
   return (
     <div>
 
@@ -189,6 +213,10 @@ export default function Manager() {
             setProducts(allProducts);
             loadProducts();
             clearForm();
+
+            setSearch("");
+            setSelectedCategory("All");
+            setSelectedStatus("All");
           }}
         >
           🔄 Refresh
@@ -207,8 +235,6 @@ export default function Manager() {
       <div className="main-content">
 
         <h2>Product Management</h2>
-
-      
 
         {/* STATS */}
         <div
@@ -277,12 +303,86 @@ export default function Manager() {
           </div>
         </div>
 
- {/* SEARCH */}
-        <input
-          className="form-control mb-3"
-          placeholder="Search products..."
-          onChange={(e) => handleSearch(e.target.value)}
-        />
+        {/* SEARCH + FILTERS */}
+        <div
+          className="card p-3 mb-3"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "10px",
+            alignItems: "center"
+          }}
+        >
+
+          {/* SEARCH */}
+          <input
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSearch(value);
+
+              handleFilters(
+                value,
+                selectedCategory,
+                selectedStatus
+              );
+            }}
+          />
+
+          {/* CATEGORY FILTER */}
+          <select
+            value={selectedCategory}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSelectedCategory(value);
+
+              handleFilters(
+                search,
+                value,
+                selectedStatus
+              );
+            }}
+            style={{
+              padding: "10px",
+              borderRadius: "8px",
+              border: "1px solid #ddd"
+            }}
+          >
+            {categories.map(cat => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+
+          {/* STATUS FILTER */}
+          <select
+            value={selectedStatus}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSelectedStatus(value);
+
+              handleFilters(
+                search,
+                selectedCategory,
+                value
+              );
+            }}
+            style={{
+              padding: "10px",
+              borderRadius: "8px",
+              border: "1px solid #ddd"
+            }}
+          >
+            <option value="All">All Status</option>
+            <option value="OK">OK</option>
+            <option value="LOW">LOW</option>
+            <option value="OUT">OUT</option>
+            <option value="URGENT REQUIRED">URGENT REQUIRED</option>
+          </select>
+
+        </div>
 
         {/* TABLE */}
         <div className="table-wrapper">

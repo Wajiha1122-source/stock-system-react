@@ -486,9 +486,17 @@ export default function Manager() {
       {(h.old_price ?? h.oldPrice)} → {(h.new_price ?? h.newPrice)}
     </td>
 
-    <td>
-      {new Date(h.created_at || h.createdAt).toLocaleString()}
-    </td>
+   <td>
+  {(() => {
+    const rawDate = h.created_at || h.createdAt;
+
+    const date = new Date(rawDate);
+
+    return isNaN(date.getTime())
+      ? "No Date"
+      : date.toLocaleString();
+  })()}
+</td>
   </tr>
 ))}
     </tbody>

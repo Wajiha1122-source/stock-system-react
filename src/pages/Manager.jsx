@@ -17,7 +17,7 @@ export default function Manager() {
 
   // ✅ NEW REF FOR AUTO SCROLL
   const formRef = useRef(null);
-
+  const [history, setHistory] = useState([]);
   async function loadProducts() {
     const res = await fetch(API + "/products");
     const data = await res.json();
@@ -27,6 +27,11 @@ export default function Manager() {
     setEditId(null);
     clearForm();
   }
+  async function loadHistory() {
+  const res = await fetch(API + "/product-history");
+  const data = await res.json();
+  setHistory(data);
+}
 
   /* ---------------- ADD / UPDATE ---------------- */
   async function addProduct() {
@@ -174,6 +179,7 @@ export default function Manager() {
   /* ---------------- EFFECT ---------------- */
   useEffect(() => {
     loadProducts();
+    loadHistory();
   }, []);
 
   useEffect(() => {
@@ -231,12 +237,13 @@ export default function Manager() {
         </button>
       </div>
 
-      {/* MAIN */}
+      
+      {/* Main */}
       <div className="main-content">
 
         <h2>Product Management</h2>
-
-        {/* STATS */}
+         {/*Stats*/}
+        
         <div
           style={{
             display: "grid",
@@ -266,7 +273,8 @@ export default function Manager() {
           </div>
         </div>
 
-        {/* CHART */}
+        
+        {/* Chart */}
         <div className="card p-3 mb-4">
           <h5>Stock Analytics</h5>
           <canvas ref={chartRef} height="100"></canvas>
@@ -303,7 +311,8 @@ export default function Manager() {
           </div>
         </div>
 
-        {/* SEARCH + FILTERS */}
+       
+        {/* Search and Filters*/}
         <div
           className="card p-3 mb-3"
           style={{
@@ -330,7 +339,8 @@ export default function Manager() {
             }}
           />
 
-          {/* CATEGORY FILTER */}
+         
+          {/* Category filter */}
           <select
             value={selectedCategory}
             onChange={(e) => {
@@ -377,9 +387,9 @@ export default function Manager() {
           >
             <option value="All">All Status</option>
             <option value="OK">OK</option>
-            <option value="LOW">LOW</option>
-            <option value="OUT">OUT</option>
-            <option value="URGENT REQUIRED">URGENT REQUIRED</option>
+            <option value="LOW">LOW STOCK</option>
+            <option value="OUT">OUT OF STOCK</option>
+            <option value="URGENT REQUIRED">URGENT STOCK REQUIRED</option>
           </select>
 
         </div>
@@ -446,6 +456,38 @@ export default function Manager() {
             </tbody>
 
           </table>
+          <div className="table-wrapper">
+            {/* ================= HISTORY SECTION ================= */}
+<div className="card p-3 mt-4">
+  <h5>Edit History</h5>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Old Qty → New Qty</th>
+        <th>Old Price → New Price</th>
+        <th>Edited At</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {history.map((h, i) => (
+        <tr key={i}>
+          <td>{h.product_code}</td>
+          <td>{h.product_name}</td>
+          <td>{h.old_quantity} → {h.new_quantity}</td>
+          <td>{h.old_price} → {h.new_price}</td>
+          <td>
+            {new Date(h.created_at).toLocaleString()}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+          </div>
         </div>
 
       </div>

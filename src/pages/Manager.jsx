@@ -474,16 +474,23 @@ export default function Manager() {
 
     <tbody>
       {history.map((h, i) => (
-        <tr key={i}>
-          <td>{h.product_code}</td>
-          <td>{h.product_name}</td>
-          <td>{h.old_quantity} → {h.new_quantity}</td>
-          <td>{h.old_price} → {h.new_price}</td>
-          <td>
-            {new Date(h.created_at).toLocaleString()}
-          </td>
-        </tr>
-      ))}
+  <tr key={i}>
+    <td>{h.product_code || h.productCode}</td>
+    <td>{h.product_name || h.productName}</td>
+
+    <td>
+      {(h.old_quantity ?? h.oldQty)} → {(h.new_quantity ?? h.newQty)}
+    </td>
+
+    <td>
+      {(h.old_price ?? h.oldPrice)} → {(h.new_price ?? h.newPrice)}
+    </td>
+
+    <td>
+      {new Date(h.created_at || h.createdAt).toLocaleString()}
+    </td>
+  </tr>
+))}
     </tbody>
   </table>
 </div>
